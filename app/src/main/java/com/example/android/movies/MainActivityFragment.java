@@ -1,6 +1,7 @@
 package com.example.android.movies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -77,7 +78,7 @@ public class MainActivityFragment extends Fragment {
                 String SCHEME = "http";
                 String AUTHORITY= "api.themoviedb.org";
                 String SORTBY = "popularity.desc";
-                String APIKEY = "";
+                String APIKEY = new Constants().API_KEY;
 
                 Uri uri = new Uri.Builder().scheme(SCHEME)
                         .authority(AUTHORITY)
@@ -147,6 +148,7 @@ public class MainActivityFragment extends Fragment {
             String OWM_ORIGINALTITLE = "original_title";
             String OWM_OVERVIEW = "overview";
             String OWM_VOTEAVERAGE = "vote_average";
+            String OWM_RELEASEDATE = "release_date";
 
             JSONObject forecastJson = new JSONObject(moviesJson);
             JSONArray moviesArray = forecastJson.getJSONArray(OWM_RESULT);
@@ -160,6 +162,7 @@ public class MainActivityFragment extends Fragment {
                 movie.originalTitle = movieObject.getString(OWM_ORIGINALTITLE);
                 movie.overview = movieObject.getString(OWM_OVERVIEW);
                 movie.voteAverage = movieObject.getString(OWM_VOTEAVERAGE);
+                movie.releaseDate = movieObject.getString(OWM_RELEASEDATE);
 
                 movies.add(movie);
             }
@@ -221,10 +224,20 @@ public class MainActivityFragment extends Fragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if (null == convertView) {
                 convertView = inflater.inflate(R.layout.grid_item_layout, parent, false);
             }
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Toast.makeText(getContext(), "Teste", Toast.LENGTH_LONG).show();
+                    Intent detailIntent = new Intent(getActivity(), MovieDetail.class)
+                            .putExtra(MovieObject.class.getSimpleName(), movieObjectList.get(position));
+                    startActivity(detailIntent);
+                }
+            });
 
             Picasso
                     .with(context)
