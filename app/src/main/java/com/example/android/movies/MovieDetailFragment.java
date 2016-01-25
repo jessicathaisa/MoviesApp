@@ -18,6 +18,7 @@ public class MovieDetailFragment extends Fragment {
     private String DEFAULTURL = "http://image.tmdb.org/t/p/w500/";
 
     public MovieDetailFragment() {
+        setHasOptionsMenu(true);
     }
 
     @Override

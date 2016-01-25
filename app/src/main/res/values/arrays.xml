@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Visivel para o usuário-->
+    <string-array name="pref_sorting_options">
+        <item>Highest-Rated</item>
+        <item>Most Popular</item>
+    </string-array>
+
+    <!-- Lógica do programa-->
+    <string-array name="pref_sorting_values">
+        <item>vote_average.desc</item>
+        <item>popularity.desc</item>
+    </string-array>
+</resources>

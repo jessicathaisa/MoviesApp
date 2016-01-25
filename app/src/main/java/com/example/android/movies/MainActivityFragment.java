@@ -2,9 +2,11 @@ package com.example.android.movies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -74,10 +76,12 @@ public class MainActivityFragment extends Fragment {
             String moviesJson = "";
 
             try {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String auxiliar_sorting = prefs.getString(getString(R.string.pref_sorting_key), getString(R.string.pref_sorting_mostpopular));
 
                 String SCHEME = "http";
                 String AUTHORITY= "api.themoviedb.org";
-                String SORTBY = "popularity.desc";
+                String SORTBY = auxiliar_sorting;
                 String APIKEY = new Constants().API_KEY;
 
                 Uri uri = new Uri.Builder().scheme(SCHEME)
@@ -90,6 +94,7 @@ public class MainActivityFragment extends Fragment {
                         .build();
 
                 URL url = new URL(uri.toString());
+                Log.v(LOG_TAG, url.toString());
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
@@ -190,7 +195,7 @@ public class MainActivityFragment extends Fragment {
         final private String LOG_TAG = ImageListAdapter.class.getSimpleName();
 
         private List<String> imageUrls = new ArrayList<>();
-        private String DEFAULTURL = "http://image.tmdb.org/t/p/w185/";
+        private String DEFAULTURL = "http://image.tmdb.org/t/p/w500/";
 
         public ImageListAdapter(Context context) {
             super(context, R.layout.grid_item_layout);
